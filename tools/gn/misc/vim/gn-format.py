@@ -41,9 +41,14 @@ def main():
                        stdin=subprocess.PIPE, startupinfo=startupinfo,
                        shell=is_win, universal_newlines=True)
   stdout, stderr = p.communicate(input=text)
+  if stdout != None:
+    stdout = stdout.decode('utf-8')
+  if stderr != None:
+    stderr = stderr.decode('utf-8')
+
   if p.returncode != 0:
-    print 'Formatting failed, please report to gn-dev@chromium.org.'
-    print stdout, stderr
+    print('Formatting failed, please report to gn-dev@chromium.org.')
+    print(stdout, stderr)
   else:
     # Otherwise, replace current buffer.
     lines = stdout.split('\n')

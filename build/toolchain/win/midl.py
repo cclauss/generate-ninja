@@ -199,13 +199,13 @@ def main(arch, outdir, dynamic_guid, tlb, h, dlldata, iid, proxy, idl, *flags):
     # to filter is pairs of lines that look like this:
     # Processing C:\Program Files (x86)\Microsoft SDKs\...\include\objidl.idl
     # objidl.idl
-    lines = out.splitlines()
+    lines = out.decode('utf-8').splitlines()
     prefixes = ('Processing ', '64 bit Processing ')
     processing = set(os.path.basename(x)
                      for x in lines if x.startswith(prefixes))
     for line in lines:
       if not line.startswith(prefixes) and line not in processing:
-        print line
+        print(line)
     if popen.returncode != 0:
       return popen.returncode
 
@@ -215,18 +215,18 @@ def main(arch, outdir, dynamic_guid, tlb, h, dlldata, iid, proxy, idl, *flags):
     # Now compare the output in tmp_dir to the copied-over outputs.
     diff = filecmp.dircmp(tmp_dir, outdir)
     if diff.diff_files:
-      print 'midl.exe output different from files in %s, see %s' \
-          % (outdir, tmp_dir)
+      print('midl.exe output different from files in %s, see %s'
+          % (outdir, tmp_dir))
       for f in diff.diff_files:
         if f.endswith('.tlb'): continue
         fromfile = os.path.join(outdir, f)
         tofile = os.path.join(tmp_dir, f)
-        print ''.join(difflib.unified_diff(open(fromfile, 'U').readlines(),
+        print(''.join(difflib.unified_diff(open(fromfile, 'U').readlines(),
                                            open(tofile, 'U').readlines(),
-                                           fromfile, tofile))
+                                           fromfile, tofile)))
       delete_tmp_dir = False
-      print 'To rebaseline:'
-      print '  copy /y %s\* %s' % (tmp_dir, source)
+      print('To rebaseline:')
+      print('  copy /y %s\* %s' % (tmp_dir, source))
       sys.exit(1)
     return 0
   finally:

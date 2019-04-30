@@ -79,7 +79,7 @@ def merge_pgc_files(pgomgr_path, files, pgd_path):
   merge_command.append(pgd_path)
   proc = subprocess.Popen(merge_command, stdout=subprocess.PIPE)
   stdout, _ = proc.communicate()
-  print stdout
+  print(stdout.decode('utf-8'))
   return proc.returncode
 
 
@@ -138,7 +138,7 @@ def main():
             pgd_file
         )
         if ret != 0:
-          print 'Error while trying to merge %s, continuing.' % pgc_file
+          print('Error while trying to merge %s, continuing.' % pgc_file)
 
 
 if __name__ == '__main__':
