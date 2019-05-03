@@ -24,7 +24,7 @@ COMMA := ,
 COMMIT_HASH := $Format:%h$
 REF_NAMES := $(filter-out ->,$(subst $(COMMA),$(SPACE),$(subst :$(SPACE),:,$Format:%D$)))
 VERSION_SUFFIX = $(if $(filter tag:v$(GN_VERSION),$(REF_NAMES)),,-$(COMMIT_HASH))
-GN_VERSION := 0.3.2
+GN_VERSION := 0.4.0
 ifeq ($(firstword $(subst ., ,$(MAKE_VERSION))),3)
 export GN_VERSION := $(if $(filter-out %:%h$,$(COMMIT_HASH)),$(GN_VERSION)$(VERSION_SUFFIX))
 else
